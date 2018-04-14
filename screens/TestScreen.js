@@ -22,44 +22,31 @@ export default class TestScreen extends React.Component {
     firebase.auth().signOut();
   }
 
+  // Reauthenticates the current user and returns a promise...
   reauthenticate = (currentPassword) => {
     var user = firebase.auth().currentUser;
     var cred = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
     return user.reauthenticateWithCredential(cred);
   }
 
+  // Changes user's password...
   onChangePasswordPress = () => {
-
     this.reauthenticate(this.state.currentPassword).then(() => {
-
       var user = firebase.auth().currentUser;
       user.updatePassword(this.state.newPassword).then(() => {
         Alert.alert("Password was changed");
-      }).catch((error) => {
-        Alert.alert(error.message);
-      });
-
-    }).catch((error) => {
-      Alert.alert(error.message);
-    });
-    
+      }).catch((error) => { console.log(error.message); });
+    }).catch((error) => { console.log(error.message) });
   }
 
+  // Changes user's email...
   onChangeEmailPress = () => {
-
     this.reauthenticate(this.state.currentPassword).then(() => {
-
       var user = firebase.auth().currentUser;
       user.updateEmail(this.state.newEmail).then(() => {
         Alert.alert("Email was changed");
-      }).catch((error) => {
-        Alert.alert(error.message);
-      });
-
-    }).catch((error) => {
-      Alert.alert(error.message);
-    });
-
+      }).catch((error) => { console.log(error.message); });
+    }).catch((error) => { console.log(error.message) });
   }
   
   render() {
